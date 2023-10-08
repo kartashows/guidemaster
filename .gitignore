@@ -1,3 +1,4 @@
-instace/
+instance/
+.idea/
 drive_venv
 __pycache__/
