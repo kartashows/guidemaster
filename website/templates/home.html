@@ -1,20 +1,71 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<h1 align="center">Hello {{user.first_name}}</h1>
-<h2 align="center">Notes</h2>
-<ul class="list-group list-group-flush" id="notes">
-    {% for note in user.notes %}
-    <li class="list-group-item">{{note.data}}
-        <button type="button" class="close"  onClick="deleteNote({{note.id}})"><span aria-hidden="true">&times;</span></button>
-    </li>
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+<script>
+function updateTours(citySelect) {
+    var selectedCity = citySelect.value;
+    var tourSelect = document.getElementById("tour-selection");
+    {% if user.role == 'admin' %}
+    var createHeader = document.getElementById("create-tour-header");
+    createHeader.textContent = 'Create a new tour for ' + selectedCity;
+    {% endif %}
+    tourSelect.innerHTML = `<option value="" disabled>${selectedCity} tours</option>`;
+
+    {% for tour in tours %}
+        if ("{{ tour.city.city_name }}" === selectedCity) {
+            var option = document.createElement("option");
+            option.value = "{{ tour.name }}";
+            option.text = "{{ tour.name }}";
+            tourSelect.appendChild(option);
+        }
     {% endfor %}
-</ul>
-<form method="POST">
-    <textarea name="note" id="note" class="form-control"></textarea>
-    <br>
-    <div align="center">
-        <button type="submit" class="btn btn-primary">Add note</button>
-    </div>
+}
+</script>
+<form method="POST" class="custom-home-form">
+    <h3 align="center">City walking tours </h3>
+    <label for="city-selection">Pick a city:</label>
+    <select
+        class="form-control"
+        id="city-selection"
+        name="city-name"
+        autocomplete="off"
+        onchange="updateTours(this)"
+        >
+        <option value=""  disabled>Cities</option>
+
+        {% for city in cities %}
+            <option value="{{city.city_name}}">{{city.city_name}}</option>
+        {% endfor %}
+    </select>
+
+    {% if tours %}
+        <label for="tour-selection">Pick a tour:</label>
+        <select
+            class="form-control"
+            id="tour-selection"
+            name="tour-selection"
+            autocomplete="off"
+            >
+            <option value=""  disabled>{{ cities[0].city_name }} tours</option>
+            {% for tour in tours %}
+                {% if tour.city.city_name == cities[0].city_name %}
+                    <option value="{{tour.name}}">{{tour.name}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+
+    {% else %}
+        <p>No tours created for {{cities[0].city_name}}</p>
+    {% endif %}
+    <button type="button" class="btn btn-primary" onclick="getMapView()">Open</button>
+    {% if user.role == 'admin' %}
+        <h3 align="center" id="create-tour-header">Create a new tour for {{cities[0].city_name}}</h3>
+        <input class="form-control" type="text" placeholder="City tour name" name="tour-name">
+        <button type="submit" class="btn btn-primary">Add a city tour</button>
+    {% endif %}
 </form>
+
 {% endblock %}
+
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>

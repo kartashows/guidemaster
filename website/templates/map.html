@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+    <script>
+        var mapCoordinates = [{{ city.city_lat }}, {{ city.city_lng }}];
+        var markers = [];
+        {% if markers %}
+            {% for marker in markers %}
+                marker_info = {'lat': {{marker.latitude}},
+                              'lng': {{marker.longitude}},
+                              'name': "{{marker.name}}",
+                              'description': "{{marker.description}}"}
+                markers.push(marker_info);
+            {% endfor %}
+        {% endif %}
+    </script>
+    <h1 align="center">{{city.city_name}}</h1>
+    <h2 align="center">{{tour.name}}</h2>
+    {% if user.role == 'user' %}
+        <div>
+            <div id="map"></div>
+        </div>
+        <script src="{{ url_for('static', filename='js/leaflet/get_user_map.js') }}"></script>
+    {% elif user.role == 'admin' %}
+        <div class="admin-map">
+            <div class="admin-map-view-panel row">
+                <div class="admin-map-view col-9">
+                    <div id="map"></div>
+                </div>
+                    <div class="admin-map-customization-panel col">
+                        <button type="button" class="btn btn-primary" onclick="addMarker()">Add marker</button>
+                        <button type="button" class="btn btn-secondary custom-cancel-btn" onclick="cancelAddMarker()">Cancel</button>
+                        <input class="form-control form-control-sm marker-edit marker-name" type="text" placeholder="Sight name" aria-label=".form-control-sm example">
+                        <textarea class="form-control form-control-sm marker-edit marker-desc" placeholder="Sight description"></textarea>
+                        <button type="button" class="btn btn-outline-success marker-edit" onclick="editMarkerInfo(this)">Save marker info</button>
+                        <button type="button" class="btn btn-outline-secondary marker-edit" onclick="editOptionsControl('hidden')">Cancel marker edit</button>
+                        <div class="save-tour-btn-div">
+                            <button type="button" class="btn btn-success custom-save-btn" onclick="saveMarkersToDB({{tour.id}})">Save tour</button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <script src="{{ url_for('static', filename='js/leaflet/get_admin_map.js') }}"></script>
+    {% endif %}
+{% endblock %}

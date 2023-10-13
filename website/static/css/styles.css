@@ -1,0 +1,96 @@
+html, body{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-main-container{
+    flex: 1;
+}
+
+footer{
+    text-align: center;
+    padding: 5px;
+}
+
+footer, footer a{
+    color: rgba(255,255,255,.5);
+}
+
+.custom-home-form{
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.custom-home-form h3{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.custom-home-form select,
+.custom-home-form input{
+    margin-bottom: 2%;
+}
+
+.custom-login-form{
+    margin-left: 35%;
+    margin-right: 35%;
+}
+
+.custom-login-form h3{
+    margin-top: 15%;
+    margin-bottom: 5%;
+}
+
+.custom-login-form button{
+    width: 30%;
+}
+
+
+
+#map{
+    height: 600px;
+    margin-bottom: 25px;
+}
+
+.admin-map{
+
+}
+
+.admin-map-view{
+
+}
+
+.admin-map-customization-panel .custom-cancel-btn {
+    position: absolute;
+    left: 81%;
+    top: 0;
+}
+
+
+.custom-cancel-btn,
+.marker-edit{
+    display: none;
+}
+
+.marker-edit{
+    margin-top: 7%;
+}
+
+.save-tour-btn-div{
+    position: absolute;
+    bottom: 4%;
+    height: 10%;
+    width: 90%;
+}
+
+.custom-save-btn{
+    height: 100%;
+    width: 104%;
+}
+
