@@ -94,3 +94,7 @@ footer, footer a{
     width: 104%;
 }
 
+.is-starting-point {
+    filter: hue-rotate(160deg);
+}
+

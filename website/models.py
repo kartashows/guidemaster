@@ -33,4 +33,5 @@ class Marker(db.Model):
     description = db.Column(db.String(750))
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
+    is_starting_point = db.Column(db.Boolean)
     tour = db.relationship('Tour', back_populates='markers')

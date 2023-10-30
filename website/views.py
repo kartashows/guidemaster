@@ -47,7 +47,7 @@ def open_map_view():
     tour_name = request.args.get('tour')
     city = City.query.filter_by(city_name=city_name).first()
     tour = Tour.query.filter_by(name=tour_name).first()
-    markers = Marker.query.filter_by(tour_id=tour.id).all()
+    markers = tour.markers
     return render_template("map.html", user=current_user, city=city, tour=tour, markers=markers)
 
 
@@ -60,9 +60,10 @@ def save_tour():
         for marker in all_markers:
             db_entry = Marker.query.filter_by(latitude=marker['latitude'], longitude=marker['longitude']).first()
             marker_exists = db_entry is not None
-            if marker_exists and has_updated_fields(db_entry, marker['name'], marker['description']):
+            if marker_exists and has_updated_fields(db_entry, marker['name'], marker['description'], marker['is_starting_point']):
                 db_entry.name = marker['name']
                 db_entry.description = marker['description']
+                db_entry.is_starting_point = marker['is_starting_point']
                 continue
             elif marker_exists:
                 continue
@@ -71,6 +72,7 @@ def save_tour():
                                 description=marker['description'],
                                 latitude=marker['latitude'],
                                 longitude=marker['longitude'],
+                                is_starting_point=marker['is_starting_point']
                                 )
             db.session.add(new_marker)
     if deleted_markers:

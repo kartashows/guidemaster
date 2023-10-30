@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-
     <script>
         var mapCoordinates = [{{ city.city_lat }}, {{ city.city_lng }}];
         var markers = [];
@@ -10,7 +9,8 @@
                 marker_info = {'lat': {{marker.latitude}},
                               'lng': {{marker.longitude}},
                               'name': "{{marker.name}}",
-                              'description': "{{marker.description}}"}
+                              'description': "{{marker.description}}",
+                              'isStartingPoint': {{marker.is_starting_point|lower}}}
                 markers.push(marker_info);
             {% endfor %}
         {% endif %}
@@ -29,12 +29,25 @@
                     <div id="map"></div>
                 </div>
                     <div class="admin-map-customization-panel col">
-                        <button type="button" class="btn btn-primary" onclick="addMarker()">Add marker</button>
-                        <button type="button" class="btn btn-secondary custom-cancel-btn" onclick="cancelAddMarker()">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="addMarker()">
+                            Add marker
+                        </button>
+                        <button type="button" class="btn btn-secondary custom-cancel-btn" onclick="cancelAddMarker()">
+                            Cancel
+                        </button>
                         <input class="form-control form-control-sm marker-edit marker-name" type="text" placeholder="Sight name" aria-label=".form-control-sm example">
                         <textarea class="form-control form-control-sm marker-edit marker-desc" placeholder="Sight description"></textarea>
-                        <button type="button" class="btn btn-outline-success marker-edit" onclick="editMarkerInfo(this)">Save marker info</button>
-                        <button type="button" class="btn btn-outline-secondary marker-edit" onclick="editOptionsControl('hidden')">Cancel marker edit</button>
+
+                        <input class="form-check-input marker-edit marker-starting-point" type="checkbox" value="" id="isStartingPoint">
+                        <label class="form-check-label marker-edit" for="isStartingPoint">
+                            Set starting point
+                        </label>
+                        <button type="button" class="btn btn-outline-success marker-edit" onclick="editMarkerInfo(this)">
+                            Save marker info
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary marker-edit" onclick="editOptionsControl('hidden')">
+                            Cancel marker edit
+                        </button>
                         <div class="save-tour-btn-div">
                             <button type="button" class="btn btn-success custom-save-btn" onclick="saveMarkersToDB({{tour.id}})">Save tour</button>
                         </div>
