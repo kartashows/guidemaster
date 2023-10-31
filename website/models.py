@@ -7,7 +7,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
-    role = db.Column(db.Enum('user', 'admin'), nullable=False, default='user')
+    role = db.Column(db.Enum('user', 'admin', name='role'), nullable=False, default='user')
 
 
 class City(db.Model):
