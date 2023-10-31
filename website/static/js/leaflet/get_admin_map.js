@@ -124,7 +124,6 @@ function saveMarkersToDB(tour_id){
     }).then(response => response.json())
     .then(data => {
         sessionStorage.clear()
-//        alerts('Your tour has been saved successfully!')
         console.log(data);
     })
     .catch(error => {
